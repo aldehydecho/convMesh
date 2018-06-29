@@ -202,14 +202,6 @@ class convMESH():
         config.gpu_options.allow_growth = True
         with tf.Session(config=config) as sess:
             tf.global_variables_initializer().run()
-
-
-            # split_idx = pickle.load(open('idx.dat','rb'))
-
-            # train_data = [feature[i] for i in split_idx[44:49]]
-            # valid_data = [feature[i] for i in split_idx[0:44]]
-
-            # valid_best = float('inf')
             
             for epoch in range(0, maxepoch+1):
 
@@ -217,54 +209,10 @@ class convMESH():
                 sess.run([self.optimizer], feed_dict = {self.inputs: feature, self.laplacian : geodesic_weight})
 
                 cost_generation, cost_norm, cost_weights = sess.run([self.test_loss, self.laplacian_norm, self.weights_norm], {self.inputs:feature, self.laplacian:geodesic_weight})
-                # cost_valid = sess.run(self.generation_loss, {self.inputs: valid_data})
-                # print("Epoch: [%5d|total] generation_loss: %.8f norm_loss: %.8f weight_loss: %.8f" % (epoch+1, cost_generation, cost_norm, cost_weights))
                 print("Epoch: [%5d|total] generation_loss: %.8f  norm_loss: %.8f weight_loss: %.8f" % (epoch, cost_generation, cost_norm, cost_weights))
-
-                # if cost_valid < 80:
-                #     if cost_valid < valid_best:
-                #         valid_best = cost_valid
-                #         print('Save best!')
-                #         self.saver.save(sess, 'convmesh_valid_best.model')
-                #         file.write("save best!\nEpoch: [%5d] generation_loss: %.8f, validation: %.8f, norm_loss: %.8f\n" % (epoch+1, cost_generation, cost_valid, cost_norm))
-                # else:
-                #     pass
 
                 if epoch % 200 == 0 or epoch == maxepoch:
                     self.saver.save(sess, 'convmesh-model', global_step = epoch)
-
-                # if cost_generation < 11:
-                #     if cost_generation < bestgl and cost_norm < bestnl:
-                #         if cost_norm < sub_bestnl:
-                #             sub_bestnl = cost_norm
-                #         if cost_generation < sub_bestgl:
-                #             sub_bestgl = cost_generation
-                #         bestgl = cost_generation
-                #         bestnl = cost_norm
-                #         print('Save best!!!')
-                #         self.saver.save(sess, 'convmesh-best.model', global_step = epoch+1)
-                #         file.write("save best!\nEpoch: [%5d] generation_loss: %.8f, norm_loss: %.8f\n" % (epoch+1,  cost_generation, cost_norm))
-                #     elif cost_generation < bestgl + 0.3 and (cost_norm < bestnl or cost_norm < sub_bestnl):
-                #         if cost_norm < sub_bestnl:
-                #             sub_bestnl = cost_norm
-
-                #         print('Save sub best!!!')
-                #         self.saver.save(sess, 'convmesh-subbest.model', global_step = epoch+1)
-                #         file.write("save sub best!\nEpoch: [%5d] generation_loss: %.8f, norm_loss: %.8f\n" % (epoch+1,  cost_generation, cost_norm))
-                #     elif cost_generation < sub_bestgl:
-                #         sub_bestgl = cost_generation
-
-
-                #         print('Save sub gen best!!!')
-                #         self.saver.save(sess, 'convmesh-genbest.model', global_step = epoch+1)
-                #         file.write("save sub gen best!\nEpoch: [%5d] generation_loss: %.8f, norm_loss: %.8f\n" % (epoch+1,  cost_generation, cost_norm))          
-                # else:
-                #     pass
-    
-
-                # maxd = self.maxdimension.eval()
-
-                # print(maxd)
 
                 end = time.time()
 
