@@ -166,8 +166,6 @@ class convMESH():
 
             l1 = tf.matmul(l0, self.fcparams)
 
-            # l1 = tf.tanh(l1)
-
             if train == True:
                 weights_maximum = tf.reduce_max(tf.abs(l1), 0) - 5
                 zeros = tf.zeros_like(weights_maximum)
