@@ -187,9 +187,9 @@ class convMESH():
 
             for i in range(0, self.layers):
                 if i == 0:
-                    conv = self.convlayer(prev, self.finaldim, 9, self.n_weight[self.layers-1], self.e_weight[self.layers-1], name = 'conv'+str(i+1), special_activation = True, training = train, bn = False)
+                    conv = self.convlayer(prev, self.finaldim, 9, tf.transpose(self.n_weight[self.layers-1]), tf.transpose(self.e_weight[self.layers-1]), name = 'conv'+str(i+1), special_activation = True, training = train, bn = False)
                 else:
-                    conv = self.convlayer(prev, 9, 9, self.n_weight[self.layers-1-i], self.e_weight[self.layers-1-i], name = 'conv'+str(i+1), special_activation = True, training = train, bn = False)
+                    conv = self.convlayer(prev, 9, 9, tf.transpose(self.n_weight[self.layers-1-i]), tf.transpose(self.e_weight[self.layers-1-i]), name = 'conv'+str(i+1), special_activation = True, training = train, bn = False)
 
                 prev = conv
 
