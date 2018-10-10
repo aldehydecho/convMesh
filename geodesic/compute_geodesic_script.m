@@ -2,6 +2,8 @@ basemesh = '..\scape\1.obj';
 
 [point_geodesic]=compute_geodesic_distance(basemesh);
 
+point_geodesic = point_geodesic/max(point_geodesic(:));
+
 dmin = 0.2;
 dmax = 0.4;
 
